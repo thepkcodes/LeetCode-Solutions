@@ -1,0 +1,16 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> result;
+        for(auto i1 = nums.begin(); i1 != nums.end(); ++i1){
+            auto i2 = find(i1 + 1, nums.end(), target - *i1);
+                if(i2 != nums.end())    //found number
+                {
+                    result.push_back(i1 - nums.begin());
+                    result.push_back(i2 - nums.begin());
+                    break;
+                }
+        }
+        return result;
+    }
+};
