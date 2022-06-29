@@ -1,0 +1,70 @@
+Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+An input string is valid if:
+
+Open brackets must be closed by the same type of brackets.
+Open brackets must be closed in the correct order.
+ 
+Example 1:
+
+Input: s = "()"
+Output: true
+
+Example 2:
+
+Input: s = "()[]{}"
+Output: true
+
+Example 3:
+
+Input: s = "(]"
+Output: false
+ 
+Constraints:
+
+1 <= s.length <= 104
+s consists of parentheses only '()[]{}'.
+
+Solution: 
+
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+CODE:
+
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> parantheses;
+        for(char& c : s) {
+            switch(c) {
+                case '(': parantheses.push(c);
+                    break;
+                case '{': parantheses.push(c);
+                    break;
+                case '[': parantheses.push(c);
+                    break;
+                case ')':
+                    if(parantheses.empty() || parantheses.top() != '(')
+                        return false;
+                    else
+                        parantheses.pop();
+                        break;
+                case '}':
+                    if(parantheses.empty() || parantheses.top() != '{')
+                        return false;
+                    else
+                        parantheses.pop();
+                        break;
+                case ']':
+                    if(parantheses.empty() || parantheses.top() != '[')
+                        return false;
+                    else
+                        parantheses.pop();
+                        break;
+                default:;
+            }
+        }
+        return parantheses.empty();
+    }
+};
