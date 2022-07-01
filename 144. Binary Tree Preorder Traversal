@@ -40,13 +40,16 @@ CODE:
  */
 class Solution {
 public:
+    vector<int> ans;
+    void printPreorder(TreeNode* node) {
+        if(node == NULL)
+            return;
+        ans.push_back(node -> val);
+        printPreorder(node -> left);
+        printPreorder(node -> right);
+    }
     vector<int> preorderTraversal(TreeNode* root) {
-        vector<int> ans;
-        while(root) {
-            ans.push_back(root -> val);
-            preorderTraversal(root -> left);
-            preorderTraversal(root -> right);
-        }
+        printPreorder(root);
         return ans;
     }
 };
