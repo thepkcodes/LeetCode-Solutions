@@ -1,0 +1,79 @@
+You are given an integer array nums and you have to return a new counts array. The counts array has the property where counts[i] is the number of smaller elements to the right of nums[i].
+
+Example 1:
+
+Input: nums = [5,2,6,1]
+Output: [2,1,1,0]
+Explanation:
+To the right of 5 there are 2 smaller elements (2 and 1).
+To the right of 2 there is only 1 smaller element (1).
+To the right of 6 there is 1 smaller element (1).
+To the right of 1 there is 0 smaller element.
+
+Example 2:
+
+Input: nums = [-1]
+Output: [0]
+Example 3:
+
+Input: nums = [-1,-1]
+Output: [0,0] 
+
+Constraints:
+
+1 <= nums.length <= 105
+-104 <= nums[i] <= 104
+
+Solution:
+
+Time Complexity: O(nlog n)
+Space Complexity: O(n)
+
+class Solution {
+public:
+    vector<int> merge(vector<int>& left, vector<int>& right,
+                      vector<int>& nums, vector<int>& counts) {
+        int l = 0, lSize = left.size();
+        int r = 0, rSize = right.size();
+        int smaller = 0;
+        vector<int> index;
+        while(l < lSize && r < rSize) {
+            if(nums[left[l]] > nums[right[r]]) {
+                smaller++;
+                index.push_back(right[r++]);
+            }
+            else {
+                counts[left[l]] += smaller;
+                index.push_back(left[l++]);
+            }
+        }
+        while(l < lSize) {
+            counts[left[l]] += smaller;
+            index.push_back(left[l++]);
+        }
+        while(r < rSize) {
+            index.push_back(right[r++]);
+        }
+        return index;
+    }
+    void mergeSort(vector<int>& index, vector<int>& nums, vector<int>& counts) {
+        int size = index.size();
+        if(size < 2)
+            return;
+        vector<int> left;
+        vector<int> right;
+        left.assign(index.begin(), index.begin() + size / 2);
+        right.assign(index.begin() + size / 2, index.end());
+        mergeSort(left, nums, counts);
+        mergeSort(right, nums, counts);
+        index = merge(left, right, nums, counts);
+        return;
+    }
+    vector<int> countSmaller(vector<int>& nums) {
+        vector<int> counts(nums.size(), 0);
+        vector<int> oldIndex(nums.size(), 0);
+        iota(oldIndex.begin(), oldIndex.end(), 0);
+        mergeSort(oldIndex, nums, counts);
+        return counts;
+    }
+};
