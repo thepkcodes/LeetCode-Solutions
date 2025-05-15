@@ -40,3 +40,17 @@ words[i] consists of lowercase English letters.
 Code:
 
 
+class Solution:
+    def getLongestSubsequence(self, words: List[str], groups: List[int]) -> List[str]:
+        if not words:
+            return []
+
+        result = [words[0]]
+        last_group = groups[0]
+
+        for w, g in zip(words[1:], groups[1:]):
+            if g != last_group:
+                result.append(w)
+                last_group = g
+
+        return result
